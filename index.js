@@ -6,32 +6,23 @@ const models = require("./models");
 
 app.use(express.json());
 app.use(cors());
-app.use("/uploads", express.static("uploads"));
-
-app.get("/products", function (req, res) {
-  models.Product.findAll({
-    attributes: [/* "imageUrl", */ "name", "kind", "price", "seller", "description"],
-  })
-    .then((result) => {
-      console.log("product 조회결과:", result);
-      res.send({ product: result });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.send("에러발생");
-    });
-});
-
+console.log("models:", models);
+// app.use("/uploads", express.static("uploads"));
+/* post방식 */
 app.post("/products", function (req, res) {
   const body = req.body;
-
-  const { name, description, price, seller } = body;
+  const { product_id, name, brand, kind, price, description, image, seller } = body;
+  /* table생성 */
   models.Product.create({
+    product_id,
     name,
+    brand,
     kind,
     price,
-    seller,
     description,
+    image,
+    seller,
+    regdate,
   })
     .then((result) => {
       console.log("상품생성결과:", result);
@@ -42,8 +33,41 @@ app.post("/products", function (req, res) {
     });
 });
 
+/* get방식 */
+app.get("/products", function (req, res) {
+  models.Product.findAll({
+    attributes: ["product_id", "name", "brand", "kind", "price", "description", "image", "seller"],
+  })
+    .then((result) => {
+      console.log("product 조회결과:", result);
+      res.send({ product: result });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.send("error!");
+    });
+});
+
+app.get("/products/:id", (req, res) => {
+  const params = req.params;
+  const { id } = params;
+  models.Product.findOne({
+    where: { id: id },
+  })
+    .then((result) => {
+      console.log("조회결과", result);
+      res.send({
+        product: result,
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.send("상품조회시 에러가 발생 하였습니다.");
+    });
+});
+
 app.listen(port, () => {
-  console.log("기명섭의 정신이 돌아가고 있습니다.");
+  console.log("아나바다 쇼핑몰 서버 구동중..");
   models.sequelize
     .sync()
     .then(function () {
