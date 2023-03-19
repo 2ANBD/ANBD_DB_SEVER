@@ -22,7 +22,6 @@ app.post("/products", function (req, res) {
     description,
     image,
     seller,
-    regdate,
   })
     .then((result) => {
       console.log("상품생성결과:", result);
@@ -45,24 +44,6 @@ app.get("/products", function (req, res) {
     .catch((err) => {
       console.error(err);
       res.send("error!");
-    });
-});
-
-app.get("/products/:id", (req, res) => {
-  const params = req.params;
-  const { id } = params;
-  models.Product.findOne({
-    where: { id: id },
-  })
-    .then((result) => {
-      console.log("조회결과", result);
-      res.send({
-        product: result,
-      });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.send("상품조회시 에러가 발생 하였습니다.");
     });
 });
 
