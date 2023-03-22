@@ -1,18 +1,54 @@
+/* require = npm에서 설치한 프로그램을 불러들임. */
+
+/* express module*/
 const express = require("express");
 const app = express();
 const port = 8080;
+/* html->nodejs cors */
 const cors = require("cors");
+
 /* sql 모델링 */
 const models = require("./models");
 /* 파일업로드관련 */
 const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
+// const upload = multer({ dest: "uploads/" });
+/* uploads폴더에 파일원본이름 그대로 넣기. */
+let storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // cb 콜백함수를 통해 전송된 파일 저장 디렉토리 설정
+  },
+  filename: function (req, file, cb) {
+    cb(null, file.originalname); // cb 콜백함수를 통해 전송된 파일 이름 설정
+  },
+});
+let upload = multer({ storage: storage });
 
 app.use(express.json());
+/* express의 모든요청 허용 */
 app.use(cors());
 console.log("models:", models);
-// app.use("/uploads", express.static("uploads"));
-/* post방식 */
+
+//webserver app.listen(8080) : 포트 응답
+app.listen(port, () => {
+  console.log(`Start Server 웹서버 가동중.. port:${port}`);
+  models.sequelize
+    .sync()
+    .then(function () {
+      console.log("연결성공!");
+    })
+    .catch(function () {
+      console.error("error");
+      console.log("error");
+      process.exit(); //sever 종료
+    });
+});
+
+/* 기본루트 */
+app.get("/", function (req, res) {
+  res.send(`ANBD SERVER : 라우터1/products 라우터2/image`);
+});
+
+/* /products 라우팅 */
 app.post("/products", function (req, res) {
   const body = req.body;
   const { product_id, name, brand, kind, price, description, image, seller } = body;
@@ -29,44 +65,33 @@ app.post("/products", function (req, res) {
   })
     .then((result) => {
       console.log("상품생성결과:", result);
-      res.send({ result });
+      res.send({ result }); /* res.send : products페이지에 결과출력 */
     })
     .catch((err) => {
       console.error(err);
     });
 });
 
-/* get방식 */
 app.get("/products", function (req, res) {
   models.Product.findAll({
     attributes: ["product_id", "name", "brand", "kind", "price", "description", "image", "seller"],
   })
     .then((result) => {
       console.log("product 조회결과:", result);
-      res.send({ product: result });
+      /* res.send써도 똑같음 그냥 명확히 하기위해 res.json씀 */
+      res.json({ product: result });
     })
     .catch((err) => {
       console.error(err);
       res.send("error!");
     });
 });
+
 /* 파일업로드 */
+/* 파일여러개면 single말고 array로 쓴다. */
 app.post("/image", upload.single("image"), (req, res) => {
   const file = req.file;
   res.send({
     imageUrl: file.path,
   });
-});
-app.listen(port, () => {
-  console.log("아나바다 쇼핑몰 서버 구동중..");
-  models.sequelize
-    .sync()
-    .then(function () {
-      console.log("연결성공!");
-    })
-    .catch(function () {
-      console.error("error");
-      console.log("error");
-      process.exit(); //sever 종료
-    });
 });
