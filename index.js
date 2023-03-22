@@ -2,7 +2,11 @@ const express = require("express");
 const app = express();
 const port = 8080;
 const cors = require("cors");
+/* sql 모델링 */
 const models = require("./models");
+/* 파일업로드관련 */
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 app.use(express.json());
 app.use(cors());
@@ -46,7 +50,13 @@ app.get("/products", function (req, res) {
       res.send("error!");
     });
 });
-
+/* 파일업로드 */
+app.post("/image", upload.single("image"), (req, res) => {
+  const file = req.file;
+  res.send({
+    imageUrl: file.path,
+  });
+});
 app.listen(port, () => {
   console.log("아나바다 쇼핑몰 서버 구동중..");
   models.sequelize
