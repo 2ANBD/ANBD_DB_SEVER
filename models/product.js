@@ -4,7 +4,7 @@ sequelize : 테이블과 칼럼생성*/
 module.exports = (sequelize, DataTypes) => {
   /* Product : 별칭 */
   const product = sequelize.define("Product", {
-    /* 상품번호 pk */
+    /* 카테고리 */
     product_id: {
       type: DataTypes.STRING(10),
       allowNull: false,
@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
     /* 상품브랜드 */
     brand: {
       type: DataTypes.STRING(20),
-      allowNull: false,
+      allowNull: true,
     },
     /* 상품종류 */
     kind: {
@@ -37,7 +37,7 @@ module.exports = (sequelize, DataTypes) => {
     /* 상품사진 */
     imageUrl: {
       type: DataTypes.STRING(300),
-      allowNull: false,
+      allowNull: true,
     },
     /* 판매자 */
     seller: {
