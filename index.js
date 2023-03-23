@@ -51,7 +51,7 @@ app.get("/", function (req, res) {
 /* /products 라우팅 */
 app.post("/products", function (req, res) {
   const body = req.body;
-  const { product_id, name, brand, kind, price, description, image, seller } = body;
+  const { product_id, name, brand, kind, price, description, imageUrl, seller } = body;
   /* table생성 */
   models.Product.create({
     product_id,
@@ -60,7 +60,7 @@ app.post("/products", function (req, res) {
     kind,
     price,
     description,
-    image,
+    imageUrl,
     seller,
   })
     .then((result) => {
@@ -74,7 +74,7 @@ app.post("/products", function (req, res) {
 
 app.get("/products", function (req, res) {
   models.Product.findAll({
-    attributes: ["product_id", "name", "brand", "kind", "price", "description", "image", "seller"],
+    attributes: ["product_id", "name", "brand", "kind", "price", "description", "imageUrl", "seller"],
   })
     .then((result) => {
       console.log("product 조회결과:", result);
@@ -86,7 +86,7 @@ app.get("/products", function (req, res) {
       res.send("error!");
     });
 });
-app.get("/products/:id", (req, res) => {
+/* app.get("/products/:id", (req, res) => {
   const params = req.params;
   const { id } = params;
   models.Product.findOne({
@@ -102,9 +102,9 @@ app.get("/products/:id", (req, res) => {
       console.error(error);
       res.send("상품조회시 에러가 발생 하였습니다.");
     });
-});
+}); */
 
-app.post("/purchase/:id", (req, res) => {
+/* app.post("/purchase/:id", (req, res) => {
   const { id } = req.params;
   models.Product.update(
     {
@@ -123,7 +123,7 @@ app.post("/purchase/:id", (req, res) => {
       console.error(err);
       res.status(500).send("에러가발생했습니다");
     });
-});
+}); */
 
 /* 파일업로드 */
 /* 파일여러개면 single말고 array로 쓴다. */

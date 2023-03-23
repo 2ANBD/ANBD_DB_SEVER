@@ -35,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     /* 상품사진 */
-    image: {
+    imageUrl: {
       type: DataTypes.STRING(300),
       allowNull: false,
     },
