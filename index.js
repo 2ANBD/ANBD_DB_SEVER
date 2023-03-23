@@ -3,7 +3,7 @@
 /* express module*/
 const express = require("express");
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 8080;
 /* html->nodejs cors */
 const cors = require("cors");
 
@@ -84,6 +84,44 @@ app.get("/products", function (req, res) {
     .catch((err) => {
       console.error(err);
       res.send("error!");
+    });
+});
+app.get("/products/:id", (req, res) => {
+  const params = req.params;
+  const { id } = params;
+  models.Product.findOne({
+    where: { id: id },
+  })
+    .then((result) => {
+      console.log("조회결과", result);
+      res.send({
+        product: result,
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.send("상품조회시 에러가 발생 하였습니다.");
+    });
+});
+
+app.post("/purchase/:id", (req, res) => {
+  const { id } = req.params;
+  models.Product.update(
+    {
+      soldout: 1,
+    },
+    {
+      where: { id },
+    }
+  )
+    .then((result) => {
+      res.send({
+        result: true,
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("에러가발생했습니다");
     });
 });
 
