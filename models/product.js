@@ -36,7 +36,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     /* 상품사진 */
     image: {
-      type: DataTypes.STRING(100),
+      type: DataTypes.STRING(300),
       allowNull: false,
     },
     /* 판매자 */
