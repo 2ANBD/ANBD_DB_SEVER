@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
     /* 상품종류 */
-    kind: {
+    size: {
       type: DataTypes.STRING(10),
       allowNull: false,
     },

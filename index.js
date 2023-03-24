@@ -51,13 +51,13 @@ app.get("/", function (req, res) {
 /* /products 라우팅 */
 app.post("/products", function (req, res) {
   const body = req.body;
-  const { product_id, name, brand, kind, price, description, imageUrl, seller } = body;
+  const { product_id, name, brand, size, price, description, imageUrl, seller } = body;
   /* table생성 */
   models.Product.create({
     product_id,
     name,
     brand,
-    kind,
+    size,
     price,
     description,
     imageUrl,
@@ -74,7 +74,7 @@ app.post("/products", function (req, res) {
 
 app.get("/products", function (req, res) {
   models.Product.findAll({
-    attributes: ["product_id", "name", "brand", "kind", "price", "description", "imageUrl", "seller"],
+    attributes: ["product_id", "name", "brand", "size", "price", "description", "imageUrl", "seller"],
   })
     .then((result) => {
       console.log("product 조회결과:", result);
