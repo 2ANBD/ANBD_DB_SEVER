@@ -51,10 +51,10 @@ app.get("/", function (req, res) {
 /* /products 라우팅 */
 app.post("/products", function (req, res) {
   const body = req.body;
-  const { product_id, name, brand, size, price, description, imageUrl, seller } = body;
+  const { category, name, brand, size, price, description, imageUrl, seller } = body;
   /* table생성 */
   models.Product.create({
-    product_id,
+    category,
     name,
     brand,
     size,
@@ -74,7 +74,7 @@ app.post("/products", function (req, res) {
 
 app.get("/products", function (req, res) {
   models.Product.findAll({
-    attributes: ["product_id", "name", "brand", "size", "price", "description", "imageUrl", "seller"],
+    attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller"],
   })
     .then((result) => {
       console.log("product 조회결과:", result);
@@ -86,7 +86,7 @@ app.get("/products", function (req, res) {
       res.send("error!");
     });
 });
-/* app.get("/products/:id", (req, res) => {
+app.get("/products/:id", (req, res) => {
   const params = req.params;
   const { id } = params;
   models.Product.findOne({
@@ -102,7 +102,7 @@ app.get("/products", function (req, res) {
       console.error(error);
       res.send("상품조회시 에러가 발생 하였습니다.");
     });
-}); */
+});
 
 /* app.post("/purchase/:id", (req, res) => {
   const { id } = req.params;

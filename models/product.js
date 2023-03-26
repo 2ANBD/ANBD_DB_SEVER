@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
   /* Product : 별칭 */
   const product = sequelize.define("Product", {
     /* 카테고리 */
-    product_id: {
+    category: {
       type: DataTypes.STRING(10),
       allowNull: false,
     },
@@ -22,12 +22,12 @@ module.exports = (sequelize, DataTypes) => {
     /* 상품종류 */
     size: {
       type: DataTypes.STRING(10),
-      allowNull: false,
+      allowNull: true,
     },
     /* 판매가격 */
     price: {
       type: DataTypes.INTEGER(10),
-      allowNull: false,
+      allowNull: true,
     },
     /* 상품설명 */
     description: {
