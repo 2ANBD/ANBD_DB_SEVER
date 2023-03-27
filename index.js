@@ -24,6 +24,7 @@ let storage = multer.diskStorage({
 let upload = multer({ storage: storage });
 
 app.use(express.json());
+app.use("/uploads", express.static("uploads"));
 /* express의 모든요청 허용 */
 app.use(cors());
 console.log("models:", models);
