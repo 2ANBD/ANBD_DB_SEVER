@@ -46,7 +46,7 @@ app.listen(port, () => {
 
 /* 기본루트 */
 app.get("/", function (req, res) {
-  res.send(`ANBD SERVER : 라우터1/products 라우터2/image`);
+  res.send(`ANBD SERVER : 라우터1/products 라우터2/products2`);
 });
 
 /* /products 라우팅 */
@@ -72,7 +72,79 @@ app.post("/products", function (req, res) {
       console.error(err);
     });
 });
+/* /products2 라우팅 */
+app.post("/products2", function (req, res) {
+  const body = req.body;
+  const { category, name, brand, size, price, description, imageUrl, seller } = body;
+  /* table생성 */
+  models.Product2.create({
+    category,
+    name,
+    brand,
+    size,
+    price,
+    description,
+    imageUrl,
+    seller,
+  })
+    .then((result) => {
+      console.log("상품생성결과:", result);
+      res.send({ result }); /* res.send : products페이지에 결과출력 */
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
 
+/* /products3 라우팅 */
+app.post("/products3", function (req, res) {
+  const body = req.body;
+  const { category, name, brand, size, price, description, imageUrl, seller } = body;
+  /* table생성 */
+  models.Product3.create({
+    category,
+    name,
+    brand,
+    size,
+    price,
+    description,
+    imageUrl,
+    seller,
+  })
+    .then((result) => {
+      console.log("상품생성결과:", result);
+      res.send({ result }); /* res.send : products페이지에 결과출력 */
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
+/* /products4 라우팅 */
+app.post("/products4", function (req, res) {
+  const body = req.body;
+  const { category, name, brand, size, price, description, imageUrl, seller } = body;
+  /* table생성 */
+  models.Product4.create({
+    category,
+    name,
+    brand,
+    size,
+    price,
+    description,
+    imageUrl,
+    seller,
+  })
+    .then((result) => {
+      console.log("상품생성결과:", result);
+      res.send({ result }); /* res.send : products페이지에 결과출력 */
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+});
+
+/* product1 */
 app.get("/products", function (req, res) {
   models.Product.findAll({
     attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller"],
@@ -87,6 +159,7 @@ app.get("/products", function (req, res) {
       res.send("error!");
     });
 });
+
 app.get("/products/:id", (req, res) => {
   const params = req.params;
   const { id } = params;
@@ -97,6 +170,109 @@ app.get("/products/:id", (req, res) => {
       console.log("조회결과", result);
       res.send({
         product: result,
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.send("상품조회시 에러가 발생 하였습니다.");
+    });
+});
+
+/* 추가 */
+/* product2 */
+app.get("/products2", function (req, res) {
+  models.Product2.findAll({
+    attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller"],
+  })
+    .then((result) => {
+      console.log("product2 조회결과:", result);
+      /* res.send써도 똑같음 그냥 명확히 하기위해 res.json씀 */
+      res.json({ product2: result });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.send("error!");
+    });
+});
+
+app.get("/products2/:id", (req, res) => {
+  const params = req.params;
+  const { id } = params;
+  models.Product2.findOne({
+    where: { id: id },
+  })
+    .then((result) => {
+      console.log("조회결과", result);
+      res.send({
+        product2: result,
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.send("상품조회시 에러가 발생 하였습니다.");
+    });
+});
+
+/* product3 */
+app.get("/products3", function (req, res) {
+  models.Product3.findAll({
+    attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller"],
+  })
+    .then((result) => {
+      console.log("product3 조회결과:", result);
+      /* res.send써도 똑같음 그냥 명확히 하기위해 res.json씀 */
+      res.json({ product3: result });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.send("error!");
+    });
+});
+
+app.get("/products3/:id", (req, res) => {
+  const params = req.params;
+  const { id } = params;
+  models.Product3.findOne({
+    where: { id: id },
+  })
+    .then((result) => {
+      console.log("조회결과", result);
+      res.send({
+        product3: result,
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.send("상품조회시 에러가 발생 하였습니다.");
+    });
+});
+
+/* product4 */
+app.get("/products4", function (req, res) {
+  models.Product4.findAll({
+    attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller"],
+  })
+    .then((result) => {
+      console.log("product4 조회결과:", result);
+      /* res.send써도 똑같음 그냥 명확히 하기위해 res.json씀 */
+      res.json({ product4: result });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.send("error!");
+    });
+});
+
+app.get("/products4/:id", (req, res) => {
+  const params = req.params;
+  const { id } = params;
+  models.Product4.findOne({
+    where: { id: id },
+  })
+    .then((result) => {
+      console.log("조회결과", result);
+      res.send({
+        product4: result,
       });
     })
     .catch((error) => {
