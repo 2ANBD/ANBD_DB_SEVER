@@ -147,7 +147,7 @@ app.post("/products4", function (req, res) {
 /* product1 */
 app.get("/products", function (req, res) {
   models.Product.findAll({
-    order: [["createdAt", "ASC"]],
+    // order: [["createdAt", "ASC"]],
     attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller"],
   })
     .then((result) => {
@@ -183,7 +183,7 @@ app.get("/products/:id", (req, res) => {
 /* product2 */
 app.get("/products2", function (req, res) {
   models.Product2.findAll({
-    order: [["createdAt", "ASC"]],
+    // order: [["createdAt", "ASC"]],
     attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller"],
   })
     .then((result) => {
@@ -215,7 +215,7 @@ app.get("/products2/:id", (req, res) => {
     });
 });
 
-app.post("/purchase/:id", (req, res) => {
+/* app.post("/purchase/:id", (req, res) => {
   const { id } = req.params;
   models.Product.update(
     {
@@ -234,7 +234,7 @@ app.post("/purchase/:id", (req, res) => {
       console.error(err);
       res.status(500).send("에러가발생했습니다");
     });
-});
+}); */
 
 /* 파일업로드 */
 /* 파일여러개면 single말고 array로 쓴다. */
