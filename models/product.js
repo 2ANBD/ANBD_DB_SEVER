@@ -44,11 +44,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING(30),
       allowNull: false,
     },
-    /* soldout: {
+    soldout: {
       type: DataTypes.INTEGER(300),
       allowNull: false,
       defaultValue: 0,
-    }, */
+    },
   });
   return product;
 };

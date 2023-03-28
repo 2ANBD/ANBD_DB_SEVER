@@ -1,5 +1,8 @@
 /* require = npm에서 설치한 프로그램을 불러들임. */
 
+/* get()은 주소창에 입력받았을때 실행할 사항들을 나타내는 라우트 함수, 도메인 뒤에 붙은 주소가 해당 함수에 들어가 있는 값과 일치하면 해당함수에 들어가 있는 함수가 실행된다. 
+app.get은 주소창에 GET방식으로 요청을 받았을 때 처리할 사항을 나타낸다. 첫번째 인자는 도메인 뒤에 붙는 주소, 두번째 인자는 그 주소로 들어왔을 때 처리할 사항을 적는 함수를 준다.*/
+
 /* express module*/
 const express = require("express");
 const app = express();
@@ -50,9 +53,11 @@ app.get("/", function (req, res) {
 });
 
 /* /products 라우팅 */
+/* res:서버에서 클라이언트로 응답을 보낼때
+   req:클라이언트에서 요청한 사항을 가지고 있는 오브젝트 */
 app.post("/products", function (req, res) {
   const body = req.body;
-  const { category, name, brand, size, price, description, imageUrl, seller } = body;
+  const { category, name, brand, size, price, description, imageUrl, seller, soldout } = body;
   /* table생성 */
   models.Product.create({
     category,
@@ -63,6 +68,7 @@ app.post("/products", function (req, res) {
     description,
     imageUrl,
     seller,
+    soldout,
   })
     .then((result) => {
       console.log("상품생성결과:", result);
@@ -72,10 +78,11 @@ app.post("/products", function (req, res) {
       console.error(err);
     });
 });
+
 /* /products2 라우팅 */
 app.post("/products2", function (req, res) {
   const body = req.body;
-  const { category, name, brand, size, price, description, imageUrl, seller } = body;
+  const { category, name, brand, size, price, description, imageUrl, seller, soldout } = body;
   /* table생성 */
   models.Product2.create({
     category,
@@ -86,54 +93,7 @@ app.post("/products2", function (req, res) {
     description,
     imageUrl,
     seller,
-  })
-    .then((result) => {
-      console.log("상품생성결과:", result);
-      res.send({ result }); /* res.send : products페이지에 결과출력 */
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-});
-
-/* /products3 라우팅 */
-app.post("/products3", function (req, res) {
-  const body = req.body;
-  const { category, name, brand, size, price, description, imageUrl, seller } = body;
-  /* table생성 */
-  models.Product3.create({
-    category,
-    name,
-    brand,
-    size,
-    price,
-    description,
-    imageUrl,
-    seller,
-  })
-    .then((result) => {
-      console.log("상품생성결과:", result);
-      res.send({ result }); /* res.send : products페이지에 결과출력 */
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-});
-
-/* /products4 라우팅 */
-app.post("/products4", function (req, res) {
-  const body = req.body;
-  const { category, name, brand, size, price, description, imageUrl, seller } = body;
-  /* table생성 */
-  models.Product4.create({
-    category,
-    name,
-    brand,
-    size,
-    price,
-    description,
-    imageUrl,
-    seller,
+    soldout,
   })
     .then((result) => {
       console.log("상품생성결과:", result);
@@ -147,8 +107,8 @@ app.post("/products4", function (req, res) {
 /* product1 */
 app.get("/products", function (req, res) {
   models.Product.findAll({
-    // order: [["createdAt", "ASC"]],
-    attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller"],
+    order: [["createdAt", "ASC"]],
+    attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller", "soldout"],
   })
     .then((result) => {
       console.log("product 조회결과:", result);
@@ -183,8 +143,8 @@ app.get("/products/:id", (req, res) => {
 /* product2 */
 app.get("/products2", function (req, res) {
   models.Product2.findAll({
-    // order: [["createdAt", "ASC"]],
-    attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller"],
+    order: [["createdAt", "ASC"]],
+    attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller", "soldout"],
   })
     .then((result) => {
       console.log("product2 조회결과:", result);
@@ -215,7 +175,8 @@ app.get("/products2/:id", (req, res) => {
     });
 });
 
-/* app.post("/purchase/:id", (req, res) => {
+/* table1 */
+app.post("/purchase/:id", (req, res) => {
   const { id } = req.params;
   models.Product.update(
     {
@@ -234,7 +195,30 @@ app.get("/products2/:id", (req, res) => {
       console.error(err);
       res.status(500).send("에러가발생했습니다");
     });
-}); */
+});
+
+/* purchase2라는 주소로 post요청이 들어오면 실행*/
+/* table2 */
+app.post("/purchase2/:id", (req, res) => {
+  const { id } = req.params;
+  models.Product2.update(
+    {
+      soldout: 1,
+    },
+    {
+      where: { id },
+    }
+  )
+    .then((result) => {
+      res.send({
+        result: true,
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.status(500).send("에러가발생했습니다");
+    });
+});
 
 /* 파일업로드 */
 /* 파일여러개면 single말고 array로 쓴다. */
