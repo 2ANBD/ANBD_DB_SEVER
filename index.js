@@ -147,6 +147,7 @@ app.post("/products4", function (req, res) {
 /* product1 */
 app.get("/products", function (req, res) {
   models.Product.findAll({
+    order: [["createdAt", "ASC"]],
     attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller"],
   })
     .then((result) => {
@@ -182,6 +183,7 @@ app.get("/products/:id", (req, res) => {
 /* product2 */
 app.get("/products2", function (req, res) {
   models.Product2.findAll({
+    order: [["createdAt", "ASC"]],
     attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller"],
   })
     .then((result) => {
@@ -213,75 +215,7 @@ app.get("/products2/:id", (req, res) => {
     });
 });
 
-/* product3 */
-app.get("/products3", function (req, res) {
-  models.Product3.findAll({
-    attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller"],
-  })
-    .then((result) => {
-      console.log("product3 조회결과:", result);
-      /* res.send써도 똑같음 그냥 명확히 하기위해 res.json씀 */
-      res.json({ product3: result });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.send("error!");
-    });
-});
-
-app.get("/products3/:id", (req, res) => {
-  const params = req.params;
-  const { id } = params;
-  models.Product3.findOne({
-    where: { id: id },
-  })
-    .then((result) => {
-      console.log("조회결과", result);
-      res.send({
-        product3: result,
-      });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.send("상품조회시 에러가 발생 하였습니다.");
-    });
-});
-
-/* product4 */
-app.get("/products4", function (req, res) {
-  models.Product4.findAll({
-    attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller"],
-  })
-    .then((result) => {
-      console.log("product4 조회결과:", result);
-      /* res.send써도 똑같음 그냥 명확히 하기위해 res.json씀 */
-      res.json({ product4: result });
-    })
-    .catch((err) => {
-      console.error(err);
-      res.send("error!");
-    });
-});
-
-app.get("/products4/:id", (req, res) => {
-  const params = req.params;
-  const { id } = params;
-  models.Product4.findOne({
-    where: { id: id },
-  })
-    .then((result) => {
-      console.log("조회결과", result);
-      res.send({
-        product4: result,
-      });
-    })
-    .catch((error) => {
-      console.error(error);
-      res.send("상품조회시 에러가 발생 하였습니다.");
-    });
-});
-
-/* app.post("/purchase/:id", (req, res) => {
+app.post("/purchase/:id", (req, res) => {
   const { id } = req.params;
   models.Product.update(
     {
@@ -300,7 +234,7 @@ app.get("/products4/:id", (req, res) => {
       console.error(err);
       res.status(500).send("에러가발생했습니다");
     });
-}); */
+});
 
 /* 파일업로드 */
 /* 파일여러개면 single말고 array로 쓴다. */
