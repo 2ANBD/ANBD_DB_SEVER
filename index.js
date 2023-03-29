@@ -108,7 +108,7 @@ app.post("/products2", function (req, res) {
 app.get("/products", function (req, res) {
   models.Product.findAll({
     order: [["createdAt", "ASC"]],
-    attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller", "soldout"],
+    attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller", "soldout", "createdAt"],
   })
     .then((result) => {
       console.log("product 조회결과:", result);
@@ -144,7 +144,7 @@ app.get("/products/:id", (req, res) => {
 app.get("/products2", function (req, res) {
   models.Product2.findAll({
     order: [["createdAt", "ASC"]],
-    attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller", "soldout"],
+    attributes: ["id", "category", "name", "brand", "size", "price", "description", "imageUrl", "seller", "soldout", "createdAt"],
   })
     .then((result) => {
       console.log("product2 조회결과:", result);
