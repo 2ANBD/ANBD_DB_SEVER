@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     /* 판매가격 */
     price: {
       type: DataTypes.INTEGER(10),
-      allowNull: true,
+      allowNull: false,
     },
     /* 상품설명 */
     description: {
