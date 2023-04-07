@@ -1,8 +1,3 @@
-/* require = npm에서 설치한 프로그램을 불러들임. */
-
-/* get()은 주소창에 입력받았을때 실행할 사항들을 나타내는 라우트 함수, 도메인 뒤에 붙은 주소가 해당 함수에 들어가 있는 값과 일치하면 해당함수에 들어가 있는 함수가 실행된다. 
-app.get은 주소창에 GET방식으로 요청을 받았을 때 처리할 사항을 나타낸다. 첫번째 인자는 도메인 뒤에 붙는 주소, 두번째 인자는 그 주소로 들어왔을 때 처리할 사항을 적는 함수를 준다.*/
-
 /* express module*/
 const express = require("express");
 const app = express();
@@ -14,7 +9,7 @@ const cors = require("cors");
 const models = require("./models");
 /* 파일업로드관련 */
 const multer = require("multer");
-// const upload = multer({ dest: "uploads/" });
+
 /* uploads폴더에 파일원본이름 그대로 넣기. */
 let storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -139,7 +134,6 @@ app.get("/products/:id", (req, res) => {
     });
 });
 
-/* 추가 */
 /* product2 */
 app.get("/products2", function (req, res) {
   models.Product2.findAll({
